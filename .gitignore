@@ -1,0 +1,6 @@
+# ignoring target and idea direcotry
+target/
+.idea/
+
+# ignoring class file
+*.class
