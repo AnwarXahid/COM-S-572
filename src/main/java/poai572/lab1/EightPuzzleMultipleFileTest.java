@@ -20,29 +20,29 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class EightPuzzleMultipleFileTest {
+    private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
+    private static final String ALGORITHM = "h1";
 
     public static void main(String[] args) {
-        String folderPath = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
-        String algorithm = "BFS";
         EightPuzzleBoard board;
         ExecutionResult executionResult = new ExecutionResult();
         long executionTime = 0;
         long nodeGenerated = 0;
 
-        List<String> filePathList = Util.getFilePathListFromFolder(new File(folderPath));
+        List<String> filePathList = Util.getFilePathListFromFolder(new File(FOLDER_PATH));
 
         for (String filePath: filePathList) {
             board = Util.getEightPuzzleBoardFromFile(filePath);
 
-            if (algorithm.equalsIgnoreCase("BFS")) {
+            if (ALGORITHM.equalsIgnoreCase("BFS")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "BFS");
-            } else if (algorithm.equalsIgnoreCase("IDS")) {
+            } else if (ALGORITHM.equalsIgnoreCase("IDS")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "IDS");
-            } else if (algorithm.equalsIgnoreCase("h1")) {
+            } else if (ALGORITHM.equalsIgnoreCase("h1")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "h1");
-            } else if (algorithm.equalsIgnoreCase("h2")) {
+            } else if (ALGORITHM.equalsIgnoreCase("h2")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "h2");
-            } else if (algorithm.equalsIgnoreCase("h3")) {
+            } else if (ALGORITHM.equalsIgnoreCase("h3")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "h3");
             }
 
@@ -51,8 +51,8 @@ public class EightPuzzleMultipleFileTest {
             nodeGenerated += executionResult.getNodeGenerated();
         }
 
-        System.out.println("Avg ExecutionTime: " + executionTime / filePathList.size());
-        System.out.println("Avg ExecutionTime: " + nodeGenerated / filePathList.size());
+        System.out.println("Average Execution Time: " + executionTime / filePathList.size());
+        System.out.println("Average Nodes Generated: " + nodeGenerated / filePathList.size());
     }
 
     private static ExecutionResult eightPuzzleMultipleFileWithAlgo(EightPuzzleBoard board, String algorithm) {
@@ -82,8 +82,13 @@ public class EightPuzzleMultipleFileTest {
         timeTaken = System.currentTimeMillis() - start;
 
         executionResult.setExecutionTime(timeTaken);
-        executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")) +
-                Long.parseLong(search.getMetrics().get("queueSize")));
+
+        if (algorithm.equalsIgnoreCase("IDS")) {
+            executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")));
+        } else {
+            executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")) +
+                    Long.parseLong(search.getMetrics().get("queueSize")));
+        }
 
         return executionResult;
     }

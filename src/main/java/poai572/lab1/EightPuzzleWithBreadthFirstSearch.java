@@ -29,9 +29,8 @@ public class EightPuzzleWithBreadthFirstSearch {
         Problem<EightPuzzleBoard, Action> problem = new GeneralProblem<>(board, EightPuzzleFunctions::getActions,
                 EightPuzzleFunctions::getResult, Predicate.isEqual(EightPuzzleFunctions.GOAL_STATE));
 
-        SearchForActions<EightPuzzleBoard, Action> search = new BreadthFirstSearch<>(new GraphSearch<>());
-
         start = System.currentTimeMillis();
+        SearchForActions<EightPuzzleBoard, Action> search = new BreadthFirstSearch<>(new GraphSearch<>());
         Optional<List<Action>> actions = search.findActions(problem);
         timeTaken = System.currentTimeMillis() - start;
 

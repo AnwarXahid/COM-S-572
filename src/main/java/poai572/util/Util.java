@@ -151,7 +151,7 @@ public class Util {
      */
     public static void executeTimeout(ExecutorService executor, Future<String> future) {
         try {
-            future.get(1, TimeUnit.MINUTES);
+            future.get(15, TimeUnit.MINUTES);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
             future.cancel(true);
             System.out.println("Total nodes generated: <<??>>");

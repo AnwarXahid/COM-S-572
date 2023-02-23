@@ -10,10 +10,10 @@ import poai572.util.Util;
 import java.util.concurrent.*;
 
 public class EightPuzzleSingleFileTest {
+    private static final String FILE_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S4.txt";
 
     public static void main(String[] args) {
-        String filePath = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S4.txt";
-        EightPuzzleBoard board = Util.getEightPuzzleBoardFromFile(filePath);
+        EightPuzzleBoard board = Util.getEightPuzzleBoardFromFile(FILE_PATH);
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(new Task(board));
