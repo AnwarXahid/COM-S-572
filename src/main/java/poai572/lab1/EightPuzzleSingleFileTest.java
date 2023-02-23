@@ -7,41 +7,53 @@ package poai572.lab1;
 import aima.core.environment.eightpuzzle.EightPuzzleBoard;
 import poai572.util.Util;
 
+import java.util.concurrent.*;
+
 public class EightPuzzleSingleFileTest {
 
     public static void main(String[] args) {
-        String filePath = "";
-        String algorithm = "";
-        EightPuzzleBoard board;
+        String filePath = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S4.txt";
+        EightPuzzleBoard board = Util.getEightPuzzleBoardFromFile(filePath);
 
-//        try {
-//            filePath = args[0];
-//            algorithm = args[1];
-//        } catch (Exception ex) {
-//            System.out.println("Insufficient Input!");
-//            return;
-//        }
-
-        filePath = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S5.txt";
-        algorithm = "h1";
-
-        board = Util.getEightPuzzleBoardFromFile(filePath);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(new Task(board));
 
         if (!Util.isSolvable(board)) {
             return;
         }
 
-        if (algorithm.equalsIgnoreCase("BFS")) {
-            EightPuzzleWithBreadthFirstSearch.breadthFirstSearchForEightPuzzle(board);
-        } else if (algorithm.equalsIgnoreCase("IDS")) {
-            EightPuzzleWithIterativeDeepeningSearch.iterativeDeepeningSearchForEightPuzzle(board);
-        } else if (algorithm.equalsIgnoreCase("h1")) {
-            EightPuzzleWithHeuristicSearch.misplacedTilesHeuristicForEightPuzzle(board);
-        } else if (algorithm.equalsIgnoreCase("h2")) {
-            EightPuzzleWithHeuristicSearch.manhattanDistanceHeuristicForEightPuzzle(board);
-        } else if (algorithm.equalsIgnoreCase("h3")) {
-            EightPuzzleWithHeuristicSearch.linearConflictHeuristicForEightPuzzle(board);
-        }
+        Util.executeTimeout(executor, future);
 
+        System.out.println("Solving Eight Puzzle with Breadth First Search:");
+        EightPuzzleWithBreadthFirstSearch.breadthFirstSearchForEightPuzzle(board);
+        System.out.println("\n\n");
+
+        System.out.println("Solving Eight Puzzle with A* Search (Misplaced Tiles Heuristic):");
+        EightPuzzleWithHeuristicSearch.misplacedTilesHeuristicForEightPuzzle(board);
+        System.out.println("\n\n");
+
+        System.out.println("Solving Eight Puzzle with A* Search (Manhattan Distance Heuristic):");
+        EightPuzzleWithHeuristicSearch.manhattanDistanceHeuristicForEightPuzzle(board);
+        System.out.println("\n\n");
+
+        System.out.println("Solving Eight Puzzle with A* Search (Direct Adjacent Tile Reversal Heuristic):");
+        EightPuzzleWithHeuristicSearch.linearConflictHeuristicForEightPuzzle(board);
+        System.out.println("\n\n");
+
+    }
+}
+
+class Task implements Callable<String> {
+    EightPuzzleBoard board;
+
+    Task(EightPuzzleBoard board) {
+        this.board = board;
+    }
+    @Override
+    public String call() throws Exception {
+        System.out.println("Solving Eight Puzzle with Iterative Deepening Search:");
+        EightPuzzleWithIterativeDeepeningSearch.iterativeDeepeningSearchForEightPuzzle(board);
+        System.out.println("\n\n");
+        return "Stop Execution!";
     }
 }

@@ -8,9 +8,13 @@ import aima.core.agent.Action;
 import aima.core.environment.eightpuzzle.EightPuzzleBoard;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.*;
 
 public class Util {
 
@@ -111,16 +115,52 @@ public class Util {
 
         for (Action action: actionList) {
             if (action.toString().equals("Action[name=Down]"))
-                path.append("D");
-            else if (action.toString().equals("Action[name=Up]"))
                 path.append("U");
+            else if (action.toString().equals("Action[name=Up]"))
+                path.append("D");
             else if (action.toString().equals("Action[name=Right]"))
-                path.append("R");
-            else
                 path.append("L");
+            else
+                path.append("R");
         }
 
         return path.toString();
+    }
+
+
+    /*
+    Get list of file path in a folder
+
+    @param folder path
+    @return list of file path
+     */
+    public static List<String> getFilePathListFromFolder(File folder) {
+        List<String> filePathList = new ArrayList<>();
+
+        for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
+            if (fileEntry.isFile())
+                filePathList.add(fileEntry.getPath());
+        }
+
+        return filePathList;
+    }
+
+    /* Stop the execution after 15 minutes
+    @param ExecutorService
+    @param future
+     */
+    public static void executeTimeout(ExecutorService executor, Future<String> future) {
+        try {
+            future.get(1, TimeUnit.MINUTES);
+        } catch (TimeoutException | InterruptedException | ExecutionException e) {
+            future.cancel(true);
+            System.out.println("Total nodes generated: <<??>>");
+            System.out.println("Total time taken: >15 min");
+            System.out.println("Path length: Timed out!");
+            System.out.println("Path: Timed out!");
+            System.out.println("\n\n");
+        }
+        executor.shutdown();
     }
 
 }
