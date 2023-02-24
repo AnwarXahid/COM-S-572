@@ -24,8 +24,8 @@ import java.util.function.Predicate;
 @author Anwar Hossain Zahid
  */
 public class EightPuzzleMultipleFileTest {
-    private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
-    private static final String ALGORITHM = "BFS";
+    private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L24";
+    private static final String ALGORITHM = "h2";
 
     public static void main(String[] args) {
         EightPuzzleBoard board;
