@@ -5,6 +5,11 @@ import poai572.util.Util;
 
 import java.util.concurrent.*;
 
+
+/* This class is intended for testing a single eight puzzle problem with a specific algorithms,
+however, this program only runs in the terminal, to see how to run, check README.md
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleTerminalTest {
 
     public static void main(String[] args) {

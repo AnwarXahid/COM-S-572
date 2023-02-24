@@ -20,6 +20,9 @@ import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.function.Predicate;
 
+/* This class is intended to test multiple problem with a specific algorithm
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleMultipleFileTest {
     private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
     private static final String ALGORITHM = "IDS";
@@ -56,6 +59,13 @@ public class EightPuzzleMultipleFileTest {
         System.out.println("Average Nodes Generated: " + nodeGenerated / filePathList.size());
     }
 
+
+    /* Finds execution result for a single problem
+    @param eight puzzle board
+    @param algorithm
+
+    @return execution result
+     */
     private static ExecutionResult eightPuzzleMultipleFileWithAlgo(EightPuzzleBoard board, String algorithm) {
         ExecutionResult executionResult = new ExecutionResult();
         SearchForActions<EightPuzzleBoard, Action> search = null;
@@ -103,9 +113,15 @@ public class EightPuzzleMultipleFileTest {
         return executionResult;
     }
 
-
 }
 
+
+
+
+
+/* This class is intended to keep track the execution for single problem
+@author Anwar Hossain Zahid
+ */
 @Setter
 @Getter
 class ExecutionResult {
@@ -118,6 +134,13 @@ class ExecutionResult {
     }
 }
 
+
+
+
+
+/* This class implements callable in order to cap the execution time
+@author Anwar Hossain Zahid
+ */
 class IdsTask implements Callable<ExecutionResult> {
     Problem<EightPuzzleBoard, Action> problem;
 

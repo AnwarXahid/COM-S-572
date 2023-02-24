@@ -1,7 +1,3 @@
-/* EightPuzzleSingleFileTest class
-@author Anwar Hossain Zahid
- */
-
 package poai572.lab1;
 
 import aima.core.environment.eightpuzzle.EightPuzzleBoard;
@@ -9,6 +5,10 @@ import poai572.util.Util;
 
 import java.util.concurrent.*;
 
+
+/* This class is intended to test single eight puzzle problem with all the algorithms
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleSingleFileTest {
     private static final String FILE_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S4.txt";
 
@@ -43,6 +43,11 @@ public class EightPuzzleSingleFileTest {
     }
 }
 
+
+
+/* This class implements callable in order to cap the execution time for IDS
+@author Anwar Hossain Zahid
+ */
 class Task implements Callable<String> {
     EightPuzzleBoard board;
 

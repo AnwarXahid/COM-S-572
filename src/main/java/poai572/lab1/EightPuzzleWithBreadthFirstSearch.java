@@ -1,7 +1,3 @@
-/* EightPuzzleWithBreadthFirstSearch class
-@author Anwar Hossain Zahid
- */
-
 package poai572.lab1;
 
 import aima.core.agent.Action;
@@ -18,6 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+
+/* Using BFS technique to solve eight puzzle problem
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleWithBreadthFirstSearch {
 
     /* Run BFS on Eight Puzzle Problem

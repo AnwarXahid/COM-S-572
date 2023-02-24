@@ -14,6 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+
+/* Using A*-search technique to solve eight puzzle problem, here three heuristics have been implemented
+    1. misplaced tile heuristic
+    2. manhattan distance heuristic
+    3. direct adjacent tile reversal heuristic
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleWithHeuristicSearch {
     /* Run Misplaced Tiles Heuristic on Eight Puzzle Problem
         @param eight puzzle board

@@ -1,4 +1,4 @@
-/* Util class
+/* Utility class
 @author Anwar Hossain Zahid
  */
 

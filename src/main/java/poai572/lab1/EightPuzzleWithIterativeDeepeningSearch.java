@@ -13,7 +13,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+
+/* Using IDS algorithm to solve eight puzzle problem
+@author Anwar Hossain Zahid
+ */
 public class EightPuzzleWithIterativeDeepeningSearch {
+
     /* Run IDS on Eight Puzzle Problem
         @param eight puzzle board
      */
