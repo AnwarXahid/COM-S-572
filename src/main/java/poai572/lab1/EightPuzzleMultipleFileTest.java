@@ -38,6 +38,10 @@ public class EightPuzzleMultipleFileTest {
         for (String filePath : filePathList) {
             board = Util.getEightPuzzleBoardFromFile(filePath);
 
+            if (!Util.isSolvable(board)) {
+                continue;
+            }
+
             if (ALGORITHM.equalsIgnoreCase("BFS")) {
                 executionResult = eightPuzzleMultipleFileWithAlgo(board, "BFS");
             } else if (ALGORITHM.equalsIgnoreCase("IDS")) {
