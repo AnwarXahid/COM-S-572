@@ -10,18 +10,20 @@ import java.util.concurrent.*;
 @author Anwar Hossain Zahid
  */
 public class EightPuzzleSingleFileTest {
-    private static final String FILE_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S4.txt";
+    private static final String FILE_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part2\\Part2\\S5.txt";
 
     public static void main(String[] args) {
         EightPuzzleBoard board = Util.getEightPuzzleBoardFromFile(FILE_PATH);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Future<String> future = executor.submit(new Task(board));
+        ExecutorService executor;
+        Future<String> future;
 
         if (!Util.isSolvable(board)) {
             return;
         }
 
+        executor = Executors.newSingleThreadExecutor();
+        future = executor.submit(new Task(board));
         Util.executeTimeout(executor, future);
 
         System.out.println("Solving Eight Puzzle with Breadth First Search:");
