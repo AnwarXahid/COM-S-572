@@ -17,11 +17,12 @@ import poai572.util.Util;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.*;
 import java.util.function.Predicate;
 
 public class EightPuzzleMultipleFileTest {
     private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
-    private static final String ALGORITHM = "h1";
+    private static final String ALGORITHM = "IDS";
 
     public static void main(String[] args) {
         EightPuzzleBoard board;
@@ -31,7 +32,7 @@ public class EightPuzzleMultipleFileTest {
 
         List<String> filePathList = Util.getFilePathListFromFolder(new File(FOLDER_PATH));
 
-        for (String filePath: filePathList) {
+        for (String filePath : filePathList) {
             board = Util.getEightPuzzleBoardFromFile(filePath);
 
             if (ALGORITHM.equalsIgnoreCase("BFS")) {
@@ -59,16 +60,27 @@ public class EightPuzzleMultipleFileTest {
         ExecutionResult executionResult = new ExecutionResult();
         SearchForActions<EightPuzzleBoard, Action> search = null;
         long start, timeTaken;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<ExecutionResult> future;
 
         Problem<EightPuzzleBoard, Action> problem = new GeneralProblem<>(board, EightPuzzleFunctions::getActions,
                 EightPuzzleFunctions::getResult, Predicate.isEqual(EightPuzzleFunctions.GOAL_STATE));
 
+        if (algorithm.equalsIgnoreCase("IDS")) {
+            future = executor.submit(new IdsTask(problem));
+            try {
+                return future.get(15, TimeUnit.MINUTES);
+            } catch (TimeoutException | InterruptedException | ExecutionException e) {
+                future.cancel(true);
+                executor.shutdown();
+                return new ExecutionResult();
+            }
+        }
+
         start = System.currentTimeMillis();
         if (algorithm.equalsIgnoreCase("BFS")) {
             search = new BreadthFirstSearch<>(new GraphSearch<>());
-        } else if (algorithm.equalsIgnoreCase("IDS")) {
-            search = new IterativeDeepeningSearch<>();
-        }else if (algorithm.equalsIgnoreCase("h1")) {
+        } else if (algorithm.equalsIgnoreCase("h1")) {
             search = new AStarSearch<>(new GraphSearch<>(),
                     EightPuzzleFunctions::getNumberOfMisplacedTiles);
         } else if (algorithm.equalsIgnoreCase("h2")) {
@@ -83,16 +95,13 @@ public class EightPuzzleMultipleFileTest {
 
         executionResult.setExecutionTime(timeTaken);
 
-        if (algorithm.equalsIgnoreCase("IDS")) {
-            executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")));
-        } else {
-            executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")) +
-                    Long.parseLong(search.getMetrics().get("queueSize")));
-        }
+
+        executionResult.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")) +
+                Long.parseLong(search.getMetrics().get("queueSize")));
+
 
         return executionResult;
     }
-
 
 
 }
@@ -107,6 +116,24 @@ class ExecutionResult {
         executionTime = 0;
         nodeGenerated = 0;
     }
+}
 
+class IdsTask implements Callable<ExecutionResult> {
+    Problem<EightPuzzleBoard, Action> problem;
 
+    IdsTask(Problem<EightPuzzleBoard, Action> problem) {
+        this.problem = problem;
+    }
+
+    @Override
+    public ExecutionResult call() throws Exception {
+        long start = System.currentTimeMillis();
+        SearchForActions<EightPuzzleBoard, Action> search = new IterativeDeepeningSearch<>();
+        Optional<List<Action>> actions = search.findActions(problem);
+        long timeTaken = System.currentTimeMillis() - start;
+        ExecutionResult result = new ExecutionResult();
+        result.setExecutionTime(timeTaken);
+        result.setNodeGenerated(Long.parseLong(search.getMetrics().get("nodesExpanded")));
+        return result;
+    }
 }
