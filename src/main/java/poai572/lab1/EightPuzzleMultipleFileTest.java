@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  */
 public class EightPuzzleMultipleFileTest {
     private static final String FOLDER_PATH = "D:\\Study\\ISU\\Spring 2023\\COM 572\\Lab - 1\\Part3\\L8";
-    private static final String ALGORITHM = "IDS";
+    private static final String ALGORITHM = "BFS";
 
     public static void main(String[] args) {
         EightPuzzleBoard board;
@@ -59,7 +59,7 @@ public class EightPuzzleMultipleFileTest {
             nodeGenerated += executionResult.getNodeGenerated();
         }
 
-        System.out.println("Average Execution Time: " + executionTime / filePathList.size());
+        System.out.println("Average Execution Time: " + Util.convertMillisecond(executionTime / filePathList.size()));
         System.out.println("Average Nodes Generated: " + nodeGenerated / filePathList.size());
     }
 
